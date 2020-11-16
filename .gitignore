@@ -1,0 +1,7 @@
+configs/
+libs/
+output/
+import/
+*.txt
+*.json
+data/

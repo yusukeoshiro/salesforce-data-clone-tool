@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+instance_url=$1
+access_token=$2
+objects=$3
+source_user_name=$4
+source_password=$5
+destination_user_name=$6
+destination_password=$7
+interactive=$8
+
+ruby main.rb $instance_url $access_token $objects $source_user_name $source_password $destination_user_name $destination_password $interactive
