@@ -108,33 +108,33 @@ def import (username, password)
     end
 
     # import file
-    bean =
-    "<bean id=\"#{object}\" class=\"com.salesforce.dataloader.process.ProcessRunner\" singleton=\"false\">" +
-    "<description>import #{object}</description>" +
-    "<property name=\"name\" value=\"#{object}\"/>" +
-    "<property name=\"configOverrideMap\">" +
-    "  <map>" +
-    "    <entry key=\"sfdc.endpoint\" value=\"https://login.salesforce.com\"/>" +
-    "    <entry key=\"sfdc.username\" value=\"#{username}\"/>" +
-    "    <entry key=\"sfdc.password\" value=\"#{password}\"/>" +
-    "    <entry key=\"sfdc.entity\" value=\"#{object}\"/>" +
-    "    <entry key=\"process.operation\" value=\"insert\"/>" +
-    "    <entry key=\"process.mappingFile\" value=\"data/import/sdl/#{object}.sdl\"/>" +
-    "    <entry key=\"dataAccess.name\" value=\"data/import/#{object}-converted.csv\"/>" +
-    "    <entry key=\"process.outputError\" value=\"data/import/#{object}-converted-error.csv\"/>" +
-    "    <entry key=\"process.outputSuccess\" value=\"data/import/#{object}-converted-success.csv\"/>" +
-    "    <entry key=\"process.encryptionKeyFile\" value=\"/opt/app/configs/encryption.key\"/>" +
-    "    <entry key=\"dataAccess.type\" value=\"csvRead\" />" +
-    "  </map>" +
-    "</property>" +
-    "</bean>"
+    bean = <<"_BEAN_"
+<bean id=\"#{object}\" class=\"com.salesforce.dataloader.process.ProcessRunner\" singleton=\"false\">
+  <description>import #{object}</description>
+  <property name=\"name\" value=\"#{object}\"/>
+  <property name=\"configOverrideMap\">
+    <map>
+      <entry key=\"sfdc.endpoint\" value=\"https://login.salesforce.com\"/>
+      <entry key=\"sfdc.username\" value=\"#{username}\"/>
+      <entry key=\"sfdc.password\" value=\"#{password}\"/>
+      <entry key=\"sfdc.entity\" value=\"#{object}\"/>
+      <entry key=\"process.operation\" value=\"insert\"/>
+      <entry key=\"process.mappingFile\" value=\"data/import/sdl/#{object}.sdl\"/>
+      <entry key=\"dataAccess.name\" value=\"data/import/#{object}-converted.csv\"/>
+      <entry key=\"process.outputError\" value=\"data/import/#{object}-converted-error.csv\"/>
+      <entry key=\"process.outputSuccess\" value=\"data/import/#{object}-converted-success.csv\"/>
+      <entry key=\"process.encryptionKeyFile\" value=\"/opt/app/configs/encryption.key\"/>
+      <entry key=\"dataAccess.type\" value=\"csvRead\" />
+    </map>
+  </property>
+</bean>
+_BEAN_
 
 
-    xml_file =
-    "<!DOCTYPE beans PUBLIC \"-//SPRING//DTD BEAN//EN\" \"http://www.springframework.org/dtd/spring-beans.dtd\">" +
-    "<beans>" +
-    bean +
-    "</beans>"
+    xml_file = <<"_XML_"
+<!DOCTYPE beans PUBLIC \"-//SPRING//DTD BEAN//EN\" \"http://www.springframework.org/dtd/spring-beans.dtd\">
+<beans>#{bean}</beans>
+_XML_
 
     FileUtils.mkdir_p 'configs/import'
     File.open("configs/import/process-conf.xml", "w") { |f| f.write xml_file }
