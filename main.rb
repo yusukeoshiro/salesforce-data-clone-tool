@@ -17,20 +17,20 @@ raise 'destination_password are not provided'  if !destination_password
 
 objects = objects.split(',')
 
-puts ""
-puts ""
-puts ""
-puts "## DATA CLONER ##"
-puts ""
+puts <<"_EOM_"
 
-puts "instance_url: #{instance_url}"
-puts "access_token: #{access_token}"
-puts "objects: #{objects.size} objects"
-puts "         #{objects[0..3].join(',')}..."
-puts "source_user_name: #{source_user_name}"
-puts "source_password: #{source_password}"
-puts "destination_user_name: #{destination_user_name}"
-puts "destination_password: #{destination_password}"
+
+## DATA CLONER ##
+
+instance_url: #{instance_url}
+access_token: #{access_token}
+objects: #{objects.size} objects
+         #{objects[0..3].join(',')}...
+source_user_name: #{source_user_name}
+source_password: #{source_password}
+destination_user_name: #{destination_user_name}
+destination_password: #{destination_password}
+_EOM_
 
 
 

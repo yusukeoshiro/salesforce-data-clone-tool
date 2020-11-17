@@ -6,10 +6,11 @@ access_token = ARGV[1]
 
 def describe_objects(instance_url, access_token, objects, interactive)
 
-  puts ""
-  puts ""
-  puts ""
-  puts "getting description of #{objects.size} objects..."
+  puts <<"_EOM_"
+
+
+getting description of #{objects.size} objects...
+_EOM_
 
   object_fields = {}
   dependant_external_objects = [] # these are objects that are not being migrated, but are depended by those that are
@@ -62,13 +63,14 @@ def describe_objects(instance_url, access_token, objects, interactive)
 
   dependant_external_objects = dependant_external_objects.uniq
   dependant_external_objects = dependant_external_objects.map(&:upcase)
-  puts ""
-  puts ""
-  puts ""
-  puts "ATTENTION looks like you need to migrate these objects too"
-  puts "   #{dependant_external_objects.join(', ')}"
-  puts ""
-  puts "If you do not wish to migrate the objects yourself, we expect ID conversion table to be located in data/conversion_table/object_name.csv"
+  puts <<"_EOM_"
+
+
+ATTENTION looks like you need to migrate these objects too"
+   #{dependant_external_objects.join(', ')}"
+
+If you do not wish to migrate the objects yourself, we expect ID conversion table to be located in data/conversion_table/object_name.csv
+_EOM_
 
   if interactive
     puts "do you want to continue? [y]n"

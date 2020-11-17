@@ -14,34 +14,36 @@ def export (username, password)
     fields = object_fields[object]['fields'].map{|f| f['name']}.join(', ')
     soql_statement = "SELECT #{fields} FROM #{object}"
 
-    bean =
-    "<bean id=\"#{object}\" class=\"com.salesforce.dataloader.process.ProcessRunner\" singleton=\"false\">" +
-    "<description>export #{object}</description>" +
-    "<property name=\"name\" value=\"#{object}\"/>" +
-    "<property name=\"configOverrideMap\">" +
-    "  <map>" +
-    "    <entry key=\"sfdc.endpoint\" value=\"https://login.salesforce.com\"/>" +
-    "    <entry key=\"sfdc.username\" value=\"#{username}\"/>" +
-    "    <entry key=\"sfdc.password\" value=\"#{password}\"/>" +
-    "    <entry key=\"sfdc.entity\" value=\"#{object}\"/>" +
-    "    <entry key=\"process.operation\" value=\"extract\"/>" +
-    "    <entry key=\"sfdc.extractionSOQL\" value=\"#{soql_statement}\"/>" +
-    "    <entry key=\"dataAccess.name\" value=\"data/export/#{object}.csv\"/>" +
-    "    <entry key=\"process.outputError\" value=\"data/export/#{object}-error.csv\"/>" +
-    "    <entry key=\"process.outputSuccess\" value=\"data/export/#{object}-success.csv\"/>" +
-    "    <entry key=\"process.encryptionKeyFile\" value=\"/opt/app/configs/encryption.key\"/>" +
-    "    <entry key=\"dataAccess.type\" value=\"csvWrite\" />" +
-    "  </map>" +
-    "</property>" +
-    "</bean>"
+    bean = <<"_BEAN_"
+<bean id=\"#{object}\" class=\"com.salesforce.dataloader.process.ProcessRunner\" singleton=\"false\">
+  <description>export #{object}</description>
+  <property name=\"name\" value=\"#{object}\"/>
+  <property name=\"configOverrideMap\">
+    <map>
+      <entry key=\"sfdc.endpoint\" value=\"https://login.salesforce.com\"/>
+      <entry key=\"sfdc.username\" value=\"#{username}\"/>
+      <entry key=\"sfdc.password\" value=\"#{password}\"/>
+      <entry key=\"sfdc.entity\" value=\"#{object}\"/>
+      <entry key=\"process.operation\" value=\"extract\"/>
+      <entry key=\"sfdc.extractionSOQL\" value=\"#{soql_statement}\"/>
+      <entry key=\"dataAccess.name\" value=\"data/export/#{object}.csv\"/>
+      <entry key=\"process.outputError\" value=\"data/export/#{object}-error.csv\"/>
+      <entry key=\"process.outputSuccess\" value=\"data/export/#{object}-success.csv\"/>
+      <entry key=\"process.encryptionKeyFile\" value=\"/opt/app/configs/encryption.key\"/>
+      <entry key=\"dataAccess.type\" value=\"csvWrite\" />" +
+    </map>
+  </property>
+</bean>
+_BEAN_
     beans.append bean
   end
 
-  xml_file =
-  "<!DOCTYPE beans PUBLIC \"-//SPRING//DTD BEAN//EN\" \"http://www.springframework.org/dtd/spring-beans.dtd\">" +
-  "<beans>" +
-  beans.join('') +
-  "</beans>"
+  xml_file = <<"_XML_"
+<!DOCTYPE beans PUBLIC \"-//SPRING//DTD BEAN//EN\" \"http://www.springframework.org/dtd/spring-beans.dtd\">
+  <beans>
+  #{beans.join('')}
+  </beans>
+_XML_
 
 
   FileUtils.mkdir_p 'configs/export'
