@@ -99,3 +99,9 @@ docker container run --rm -it -v $(pwd)/data:/opt/app/data/ -v $(pwd)/configs:/o
   'yusuke@source.com' 'a358696232e0e9e4471755decf794cea9f37ed83d2276d72576384480115ce77cf5' \
   'yusuke@destination.com' '31416e2c3fbecb05c6e5030e3ac122bb97e64165266e682d30d18aa47c870018' \
 ```
+
+## License
+
+This project is licensed under the MIT license.
+
+Copyrights on the definition files are respective of each contributor listed at the beginning of each definition file.
