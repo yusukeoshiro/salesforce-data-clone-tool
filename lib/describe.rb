@@ -76,7 +76,7 @@ def describe_objects(instance_url, access_token, objects, interactive)
   puts "ATTENTION looks like you need to migrate these objects too"
   puts "   #{dependant_external_objects.join(', ')}"
   puts ""
-  puts "If you do not wish to migrate the objects yourself, we expect ID conversion table to be located in data/conversion_table/object_name.csv"
+  puts "If you do not wish to migrate the objects yourself, we expect ID conversion table to be located in data/conversion_tables/object_name.csv"
 
   if interactive
     puts "do you want to continue? [y]n"
