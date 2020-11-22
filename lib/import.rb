@@ -2,7 +2,7 @@ require 'json'
 require 'csv'
 require 'fileutils'
 
-def import (username, password)
+def import (username, password, interactive)
   file = File.open("data/object_fields.json")
   object_fields = JSON.parse(file.read)
 
@@ -79,8 +79,9 @@ def import (username, password)
       data.each do |row|
         fields_to_convert.each do |f|
           index = f['index']
-
           old_id = row[index]
+          next if old_id.empty?
+
           reference_to = f['reference_to'].map(&:upcase)
           reference_to.each do |o|
             next if id_map[o].nil?

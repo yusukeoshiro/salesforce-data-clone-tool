@@ -40,6 +40,31 @@ if interactive
   return if continue == 'n'
 end
 
+puts "*****DANGEROUS*****"
+puts "******WARNING******"
+puts "*****DANGEROUS*****"
+puts "******WARNING******"
+puts ""
+puts "DO YOU WANT TO DELETE ALL THE RECORDS IN THE SPECIFIED OBJECTS BEFORE IMPORTING? y/n"
+input = STDIN.gets.chomp
+delete = false
+
+if input == 'y'
+  puts "ARE YOU SURE? To confirm enter \"DELETE DATA\""
+  input = STDIN.gets.chomp
+  if input == 'DELETE DATA'
+    delete = true
+    puts "will delete all the records"
+  else
+    delete = false
+    puts "will NOT delete any of the data"
+  end
+end
+
+
+
+
+
 require './lib/describe'
 object_fields = describe_objects(instance_url, access_token, objects, interactive)
 
@@ -47,8 +72,15 @@ require './lib/resolve_dependencies'
 resolve_dependencies(interactive)
 
 require './lib/export'
-export(source_user_name, source_password)
+export(source_user_name, source_password, interactive)
+
+if delete
+  require './lib/delete'
+  delete(destination_user_name, destination_password, interactive)
+end
 
 require './lib/import'
-import(destination_user_name, destination_password)
+import(destination_user_name, destination_password, interactive)
+
+
 

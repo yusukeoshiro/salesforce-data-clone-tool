@@ -53,7 +53,7 @@ def resolve_dependencies (interactive)
   puts ""
 
   if interactive
-    puts "do you want to continue? [y]n"
+    puts "Does this look good? Do you want to continue? [y]n"
     continue = STDIN.gets.chomp
     return if continue == 'n'
   end

@@ -6,6 +6,13 @@ access_token = ARGV[1]
 
 def describe_objects(instance_url, access_token, objects, interactive)
 
+
+  if interactive && File.exist?("data/object_fields.json")
+    puts "looks like data/object_fields.json exists already. Do you still want to get object descriptions? [y]n"
+    continue = STDIN.gets.chomp
+    return if continue == 'n'
+  end
+
   puts ""
   puts ""
   puts ""
@@ -40,7 +47,8 @@ def describe_objects(instance_url, access_token, objects, interactive)
         type: field['type'],
         reference_to: field['referenceTo'],
         updateable: field['updateable'],
-        createable: field['createable']
+        createable: field['createable'],
+        nillable: field['nillable'],
       })
 
       if field['referenceTo'].size > 0 # this is a reference field
