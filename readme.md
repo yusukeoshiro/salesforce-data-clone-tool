@@ -73,31 +73,29 @@ If you fail to provide the table, the tool will end with exception saying that i
 ```bash
 # make necessary work folders
 mkdir data
-chmod 777 data
 mkdir configs
-chmod 777 configs
 
 # first encrypt the passwords. Replace MYPASSWORD with your password.
 # depending on your security setting you might need to append your password with security token.
 # repeat this process for source org and destination org
-docker container run --rm -v $(pwd)/configs:/opt/app/configs/ --entrypoint dataloader yusukeoshiro/salesforce-dataloader encrypt MYPASSWORD
+docker container run --rm -v $(pwd)/configs:/opt/app/configs/ --entrypoint dataloader --privileged yusukeoshiro/salesforce-dataloader:latest encrypt MYPASSWORD
 
 # take note of the encryption key that looks something like
 # fdcc784c3aea04aab9ece579da61d0ce358ffcd01277b6b88b036f487aabf0ed
 
-docker container run --rm -it -v $(pwd)/data:/opt/app/data/ -v $(pwd)/configs:/opt/app/configs/ --entrypoint migrate yusukeoshiro/salesforce-dataloader \
+docker container run --rm -it -v $(pwd)/data:/opt/app/data/ -v $(pwd)/configs:/opt/app/configs/ --privileged --entrypoint migrate yusukeoshiro/salesforce-dataloader:latest \
   $instace_url $access_token $objects \
   $source_user_name $source_password \
-  $destination_user_name $destination_password \
+  $destination_user_name $destination_password
 ```
 
 Example command may look something like this.
 ```bash
-docker container run --rm -it -v $(pwd)/data:/opt/app/data/ -v $(pwd)/configs:/opt/app/configs/ \
-    --entrypoint migrate d976ff7e0e82 'https://r2-company.my.salesforce.com' '00D7F0000000000!AQIAQMPgfxC2CeEj1OPxsOAFKT2P15jP' \
+docker container run --rm -it -v $(pwd)/data:/opt/app/data/ -v $(pwd)/configs:/opt/app/configs/ --privileged \
+    --entrypoint migrate yusukeoshiro/salesforce-dataloader:latest 'https://r2-company.my.salesforce.com' '00D7F0000000000!AQIAQMPgfxC2CeEj1OPxsOAFKT2P15jP' \
   'Account,Contact,CustomObject1__c,CustomObject2__c' \
   'yusuke@source.com' 'a358696232e0e9e4471755decf794cea9f37ed83d2276d72576384480115ce77cf5' \
-  'yusuke@destination.com' '31416e2c3fbecb05c6e5030e3ac122bb97e64165266e682d30d18aa47c870018' \
+  'yusuke@destination.com' '31416e2c3fbecb05c6e5030e3ac122bb97e64165266e682d30d18aa47c870018'
 ```
 
 ## License
