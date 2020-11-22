@@ -4,13 +4,13 @@ require 'fileutils'
 
 
 def delete (username, password, interactive)
-  export(username, password, false, 'data/delete')
+  FileUtils.mkdir_p 'data/delete/sdl'
 
+  export(username, password, false, 'data/delete')
   file = File.open("data/import_order.json")
   import_order = JSON.parse(file.read)
   delete_order = import_order.reverse
 
-  FileUtils.mkdir_p 'data/delete/sdl'
   File.open("data/delete/sdl/delete.sdl", "w") { |f| f.write 'Id=Id' }
 
 
